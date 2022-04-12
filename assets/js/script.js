@@ -55,15 +55,20 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function (event, ui) {
-    console.log(ui);
+    $(this).addClass("dropover");
+    $(".bottom-trash").addClass("bottom-trash-drag");
   },
   deactivate: function (event, ui) {
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
     console.log(ui);
   },
   over: function (event) {
+    $(event.target).addClass("dropover-active");
     console.log(event);
   },
   out: function (event) {
+    $(event.target).removeClass("dropover-active");
     console.log(event);
   },
   update: function () {
@@ -271,8 +276,6 @@ var auditTask = function (taskEl) {
     .find("span")
     .text()
     .trim();
-    // test that it this worked
-  console.log(date);
 
   // convert to moment object at 5:00pm
   var time = moment(date,"L").set("hour", 17);
@@ -289,5 +292,10 @@ var auditTask = function (taskEl) {
   }
 };
 
+setTimeout(function(){
+$(".card .list-group-item").each(function(index,el){
+  auditTask(el);
+});
+}, 1800000);
 // load tasks for the first time
 loadTasks();
